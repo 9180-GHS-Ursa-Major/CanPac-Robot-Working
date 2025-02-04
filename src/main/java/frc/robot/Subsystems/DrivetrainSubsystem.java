@@ -35,11 +35,19 @@ public class DrivetrainSubsystem extends SubsystemBase {
         diff = new DifferentialDrive(this::leftMotors, this::rightMotors);
     }
 
+    /**
+     * Controls the left motors of the robot
+     * @param speed the speed of the left motors
+     */
     public void leftMotors(double speed) {
         left1.set(speed);
         left2.set(speed);
     }
 
+    /**
+     * Controls the right motors of the robot
+     * @param speed the speed of the right motors
+     */
     public void rightMotors(double speed) {
         right1.set(speed);
         right2.set(speed);
@@ -48,6 +56,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public void Drive(double xSpeed, double rSpeed) {
         diff.arcadeDrive(xSpeed, rSpeed);
     }
+
+    
 
     @Override
     public void periodic() {
