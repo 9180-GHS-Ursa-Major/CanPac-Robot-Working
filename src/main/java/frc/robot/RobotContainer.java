@@ -20,12 +20,18 @@ import frc.robot.Subsystems.OuttakeSubsystem;
 
 public class RobotContainer {
 
+  
   public static CommandXboxController controller = new CommandXboxController(0);
+
+  //This is where we add all the subsystems to RobotContainer.
+  //Keep them here to keep it clean
   private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
   private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   private final OuttakeSubsystem outtakeSubsystem = new OuttakeSubsystem();
   
 
+  //This is where we add all the commands to RobotContainer
+  //Keep them here to keep it clean
   private final DriveCommand driveCommand = new DriveCommand(drivetrainSubsystem);
   private final ElevatorUp elevatorUp = new ElevatorUp(elevatorSubsystem);
   private final ElevatorDown elevatorDown = new ElevatorDown(elevatorSubsystem);
