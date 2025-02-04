@@ -46,6 +46,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+    // Start of the chooser
     drivetrainSubsystem.setDefaultCommand(driveCommand);
     upTrigger.whileTrue(elevatorUp);
     downTrigger.whileTrue(elevatorDown);
