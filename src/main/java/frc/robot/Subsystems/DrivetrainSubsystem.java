@@ -62,6 +62,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         diff.arcadeDrive(xSpeed, rSpeed);
     }
 
+    //Distance as calculated from the left-side encoder
     public double distanceLeft() {
         return encoderLeft.getDistance();
     }
@@ -72,6 +73,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public void periodic() {
         // This method is called periodically
         // This is where to put the encoder readings
-        SmartDashboard.putNumber("Distance LEft", distanceLeft());
+        SmartDashboard.putNumber("Distance Left", distanceLeft());
     }
 }
