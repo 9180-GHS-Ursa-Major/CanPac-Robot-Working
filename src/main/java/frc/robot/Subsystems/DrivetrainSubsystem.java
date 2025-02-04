@@ -25,6 +25,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         
         encoderLeft = new Encoder(0, 1);
         encoderRight = new Encoder(1, 2);
+        encoderLeft.setDistancePerPulse(0);
 
         SparkBaseConfig config = new SparkMaxConfig();
         config.inverted(true);
