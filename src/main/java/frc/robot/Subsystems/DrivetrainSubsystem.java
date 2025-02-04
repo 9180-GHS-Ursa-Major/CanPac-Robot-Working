@@ -7,6 +7,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -14,12 +15,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
     
     SparkMax left1, left2, right1, right2;
     DifferentialDrive diff;
+    Encoder encoderLeft, encoderRight;
 
     public DrivetrainSubsystem() {
         left1 = new SparkMax(4,MotorType.kBrushed);
         left2 = new SparkMax(3, MotorType.kBrushed);
         right1 = new SparkMax(2, MotorType.kBrushed);
         right2 = new SparkMax(1, MotorType.kBrushed);
+        
+        encoderLeft = new Encoder(0, 1);
+        encoderRight = new Encoder(1, 2);
 
         SparkBaseConfig config = new SparkMaxConfig();
         config.inverted(true);
