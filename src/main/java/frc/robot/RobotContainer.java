@@ -11,19 +11,23 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.DriveCommand;
 import frc.robot.Commands.ElevatorDown;
 import frc.robot.Commands.ElevatorUp;
+import frc.robot.Commands.OuttakeCommand;
 import frc.robot.Subsystems.DrivetrainSubsystem;
 import frc.robot.Subsystems.ElevatorSubsystem;
+import frc.robot.Subsystems.OuttakeSubsystem;
 
 public class RobotContainer {
 
   public static CommandXboxController controller = new CommandXboxController(0);
   private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
   private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
+  private final OuttakeSubsystem outtakeSubsystem = new OuttakeSubsystem();
   
 
   private final DriveCommand driveCommand = new DriveCommand(drivetrainSubsystem);
   private final ElevatorUp elevatorUp = new ElevatorUp(elevatorSubsystem);
   private final ElevatorDown elevatorDown = new ElevatorDown(elevatorSubsystem);
+  
 
   Trigger upTrigger = new Trigger(controller.povUp());
   Trigger downTrigger = new Trigger(controller.povDown());
