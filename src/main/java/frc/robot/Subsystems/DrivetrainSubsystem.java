@@ -4,12 +4,15 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.EncoderConfigAccessor;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.EncoderConstants;
 
 public class DrivetrainSubsystem extends SubsystemBase {
     
@@ -25,7 +28,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
         
         encoderLeft = new Encoder(0, 1);
         encoderRight = new Encoder(1, 2);
-        encoderLeft.setDistancePerPulse(0);
+        encoderLeft.setDistancePerPulse(EncoderConstants.distancePerPulse);
+        encoderRight.setDistancePerPulse(EncoderConstants.distancePerPulse);
 
         SparkBaseConfig config = new SparkMaxConfig();
         config.inverted(true);
@@ -58,11 +62,16 @@ public class DrivetrainSubsystem extends SubsystemBase {
         diff.arcadeDrive(xSpeed, rSpeed);
     }
 
+    public double distanceLeft() {
+        return encoderLeft.getDistance();
+    }
+
     
 
     @Override
     public void periodic() {
         // This method is called periodically
         // This is where to put the encoder readings
+        SmartDashboard.putNumber("Distance LEft", distanceLeft());
     }
 }
