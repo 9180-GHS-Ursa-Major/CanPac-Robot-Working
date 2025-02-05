@@ -2,14 +2,17 @@ package frc.robot.Commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.Subsystems.Elevator2;
 import frc.robot.Subsystems.ElevatorSubsystem;
 
 public class ElevatorDown extends Command {
     
-    ElevatorSubsystem elevatorSubsystem;
+    Elevator2 elevatorSubsystem;
+    double setpoint;
 
-    public ElevatorDown(ElevatorSubsystem elevatorSubsystem) {
+    public ElevatorDown(Elevator2 elevatorSubsystem, double setpoint) {
         this.elevatorSubsystem = elevatorSubsystem;
+        this.setpoint = setpoint;
         addRequirements(elevatorSubsystem);
     }
 
@@ -20,16 +23,16 @@ public class ElevatorDown extends Command {
 
     @Override
     public void execute() {
-        elevatorSubsystem.elevate(-0.5);
+        elevatorSubsystem.setSetpoint(setpoint);
     }
 
     @Override
     public boolean isFinished() {
-        return RobotContainer.controller.povDown().getAsBoolean() == false;
+        return false;
     }
 
     @Override
     public void end(boolean isFinished) {
-        elevatorSubsystem.elevate(0);
+        
     }
 }

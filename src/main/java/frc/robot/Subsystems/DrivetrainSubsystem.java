@@ -26,10 +26,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         right1 = new SparkMax(2, MotorType.kBrushed);
         right2 = new SparkMax(1, MotorType.kBrushed);
         
-        encoderLeft = new Encoder(0, 1);
-        encoderRight = new Encoder(1, 2);
-        encoderLeft.setDistancePerPulse(EncoderConstants.distancePerPulse);
-        encoderRight.setDistancePerPulse(EncoderConstants.distancePerPulse);
+        // encoderLeft = new Encoder(0, 1);
+        // encoderRight = new Encoder(1, 2);
+        // encoderLeft.setDistancePerPulse(EncoderConstants.distancePerPulse);
+        // encoderRight.setDistancePerPulse(EncoderConstants.distancePerPulse);
 
         SparkBaseConfig config = new SparkMaxConfig();
         config.inverted(true);
@@ -73,6 +73,6 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public void periodic() {
         // This method is called periodically
         // This is where to put the encoder readings
-        SmartDashboard.putNumber("Distance Left", distanceLeft());
+        // SmartDashboard.putNumber("Distance Left", distanceLeft());
     }
 }

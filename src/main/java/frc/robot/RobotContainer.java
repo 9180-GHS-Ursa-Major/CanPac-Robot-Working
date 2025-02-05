@@ -15,6 +15,7 @@ import frc.robot.Commands.ElevatorUp;
 import frc.robot.Commands.IntakeCommand;
 import frc.robot.Commands.OuttakeCommand;
 import frc.robot.Subsystems.DrivetrainSubsystem;
+import frc.robot.Subsystems.Elevator2;
 import frc.robot.Subsystems.ElevatorSubsystem;
 import frc.robot.Subsystems.OuttakeSubsystem;
 
@@ -25,16 +26,17 @@ public class RobotContainer {
 
   //This is where we add all the subsystems to RobotContainer.
   //Keep them here to keep it clean
+  private final Elevator2 elevator = new Elevator2();
   private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
-  private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
+  // private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();s
   private final OuttakeSubsystem outtakeSubsystem = new OuttakeSubsystem();
   
 
   //This is where we add all the commands to RobotContainer
   //Keep them here to keep it clean
   private final DriveCommand driveCommand = new DriveCommand(drivetrainSubsystem);
-  private final ElevatorUp elevatorUp = new ElevatorUp(elevatorSubsystem);
-  private final ElevatorDown elevatorDown = new ElevatorDown(elevatorSubsystem);
+  // private final ElevatorUp elevatorUp = new ElevatorUp(elevatorSubsystem);
+  private final ElevatorDown elevatorDown = new ElevatorDown(elevator, 1);
   private final OuttakeCommand outtakeCommand = new OuttakeCommand(outtakeSubsystem);
   private final IntakeCommand intakeCommand = new IntakeCommand(outtakeSubsystem);
 
@@ -53,8 +55,8 @@ public class RobotContainer {
 
   private void configureBindings() {
     // Start of the chooser
-    drivetrainSubsystem.setDefaultCommand(driveCommand);
-    upTrigger.whileTrue(elevatorUp);
+   // drivetrainSubsystem.setDefaultCommand(driveCommand);
+    // upTrigger.whileTrue(elevatorUp);
     downTrigger.whileTrue(elevatorDown);
     outTrigger.whileTrue(outtakeCommand);
     inTrigger.whileTrue(intakeCommand);
