@@ -26,10 +26,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         right1 = new SparkMax(2, MotorType.kBrushed);
         right2 = new SparkMax(1, MotorType.kBrushed);
         
-        // encoderLeft = new Encoder(0, 1);
-        // encoderRight = new Encoder(1, 2);
-        // encoderLeft.setDistancePerPulse(EncoderConstants.distancePerPulse);
-        // encoderRight.setDistancePerPulse(EncoderConstants.distancePerPulse);
+        encoderLeft = new Encoder(0, 1);
+        encoderRight = new Encoder(1, 2);
+        encoderLeft.setDistancePerPulse(EncoderConstants.distancePerPulse);
+        encoderRight.setDistancePerPulse(EncoderConstants.distancePerPulse);
 
         SparkBaseConfig config = new SparkMaxConfig();
         config.inverted(true);
@@ -67,6 +67,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
         return encoderLeft.getDistance();
     }
 
+
+
     
 
     @Override
@@ -74,5 +76,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // This method is called periodically
         // This is where to put the encoder readings
         // SmartDashboard.putNumber("Distance Left", distanceLeft());
+    }
+
+    public void arcadeDrive(double speed, double rot) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'arcadeDrive'");
     }
 }

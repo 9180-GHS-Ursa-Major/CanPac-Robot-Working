@@ -14,8 +14,13 @@ public class OuttakeSubsystem extends SubsystemBase {
     public OuttakeSubsystem() {
     }
 
-    public void out(double speed) {
+    public void setMotors(double speed) {
         outtakeMotor1.set(-speed);
         outtakeMotor2.set(speed);
+    }
+
+    public void stop() {
+        outtakeMotor1.stopMotor();
+        outtakeMotor2.stopMotor();
     }
 }
