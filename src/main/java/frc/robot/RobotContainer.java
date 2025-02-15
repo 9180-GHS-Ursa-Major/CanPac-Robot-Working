@@ -26,7 +26,6 @@ public class RobotContainer {
   //Keep them here to keep it clean
   private final ElevatorSubsystem elevator = new ElevatorSubsystem();
   private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
-  private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   private final OuttakeSubsystem outtakeSubsystem = new OuttakeSubsystem();
   
 
@@ -52,8 +51,9 @@ public class RobotContainer {
     controller.back.whileTrue(new InstantCommand(() -> elevator.setHomeElevator(true))).onFalse(() -> {elevator.setHomeElevator(false); elevator.zeroEncoders();});
 
     controller.a.onTrue(() -> elevator.setHomeElevator(true));
-    controller.b.onTrue(() -> elevator.setSetpoint(1.25)); //l2
+    controller.x.onTrue(() -> elevator.setSetpoint(1.25)); //l2
     controller.y.onTrue(() -> elevator.setSetpoint(2.5)); //L3
+    
 
     controller.rightY.tiggerAt(0.8).whileTrue(() -> { elevator.setOverride(true); elevator.moveMotors(-0.05);}).onFalse(() ->{elevator.setOverride(false); elevator.stopElevator();});
     controller.rightY.tiggerAt(-0.8).whileTrue(() -> {elevator.setOverride(true); elevator.moveMotors(0.05);}).onFalse(() ->{elevator.setOverride(false); elevator.stopElevator();});

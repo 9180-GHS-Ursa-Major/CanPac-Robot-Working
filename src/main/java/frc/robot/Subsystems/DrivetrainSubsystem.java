@@ -18,8 +18,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
     
     SparkMax left1, left2, right1, right2;
     DifferentialDrive diff;
-    Encoder encoderLeft = new Encoder(0, 1);
-    Encoder encoderRight = new Encoder(2, 3);
+    Encoder encoderLeft = new Encoder(1, 2);
+    Encoder encoderRight = new Encoder(3, 4);
 
     public DrivetrainSubsystem() {
         left1 = new SparkMax(4,MotorType.kBrushed);
@@ -27,7 +27,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         right1 = new SparkMax(2, MotorType.kBrushed);
         right2 = new SparkMax(1, MotorType.kBrushed);
         
-        // code thinks DIO 1 allocated on line 29 & 30
+        
         encoderLeft.setDistancePerPulse(EncoderConstants.distancePerPulse);
         encoderRight.setDistancePerPulse(EncoderConstants.distancePerPulse);
 
@@ -65,6 +65,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
     //Distance as calculated from the left-side encoder
     public double distanceLeft() {
         return encoderLeft.getDistance();
+    }
+
+    // Resets the encoder distances to 0
+    public void encoderReset() {
+        encoderLeft.reset();
+        encoderRight.reset();
     }
 
 
