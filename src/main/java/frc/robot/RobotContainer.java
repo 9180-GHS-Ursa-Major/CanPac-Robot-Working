@@ -12,14 +12,13 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.DriveCommand;
-// import frc.robot.Commands.ElevatorDown;
-// import frc.robot.Commands.ElevatorUp;
+//import frc.robot.Commands.ElevatorDown;
+//import frc.robot.Commands.ElevatorUp;
 import frc.robot.Subsystems.DrivetrainSubsystem;
 import frc.robot.Subsystems.ElevatorSubsystem;
 import frc.robot.Subsystems.OuttakeSubsystem;
 
 public class RobotContainer {
-
   
   public static DebouncedController controller = new DebouncedController(0);
 
@@ -27,35 +26,38 @@ public class RobotContainer {
   //Keep them here to keep it clean
   private final ElevatorSubsystem elevator = new ElevatorSubsystem();
   private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
-  // private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();s
+  private final ElevatorSubsystem elevatorSubsystem = new ElevatorSubsystem();
   private final OuttakeSubsystem outtakeSubsystem = new OuttakeSubsystem();
   
 
   //This is where we add all the commands to RobotContainer
   //Keep them here to keep it clean
-  private final DriveCommand driveCommand = new DriveCommand(drivetrainSubsystem);
+
   // private final ElevatorUp elevatorUp = new ElevatorUp(elevatorSubsystem);
   // private final ElevatorDown elevatorDown = new ElevatorDown(elevator, 1);
+  // Not neccessary ^, dont touch
   
 
   SendableChooser<Command> chooser = new SendableChooser<>();
   
   public RobotContainer() {
     configureBindings();
-    chooser.setDefaultOption("Command1", driveCommand);
+    //chooser.setDefaultOption("Command1", driveCommand);
   }
 
   private void configureBindings() {
     // Start of the chooser
-   drivetrainSubsystem.setDefaultCommand(driveCommand);
-    // upTrigger.whileTrue(elevatorUp);
-    controller.back.onTrue(new InstantCommand(() -> elevator.setOverride(!elevator.getOverride())));
-    controller.start.onTrue(new InstantCommand(() -> elevator.setSpeed(-0.05)));
+  drivetrainSubsystem.setDefaultCommand(new DriveCommand(drivetrainSubsystem));
+    // upTrigger.whileTrue(elevatorUp); //also not neccessary, dont touch
+    controller.back.whileTrue(new InstantCommand(() -> elevator.setHomeElevator(true))).onFalse(() -> {elevator.setHomeElevator(false); elevator.zeroEncoders();});
 
-    controller.a.onTrue(new InstantCommand(() -> elevator.setSetpoint(0)));
-    controller.b.onTrue(new InstantCommand(() -> elevator.setSetpoint(1.5)));
-    controller.y.onTrue(new InstantCommand(() -> elevator.setSetpoint(3)));
-    // controller.a.whil
+    controller.a.onTrue(() -> elevator.setHomeElevator(true));
+    controller.b.onTrue(() -> elevator.setSetpoint(1.25)); //l2
+    controller.y.onTrue(() -> elevator.setSetpoint(2.5)); //L3
+
+    controller.rightY.tiggerAt(0.8).whileTrue(() -> { elevator.setOverride(true); elevator.moveMotors(-0.05);}).onFalse(() ->{elevator.setOverride(false); elevator.stopElevator();});
+    controller.rightY.tiggerAt(-0.8).whileTrue(() -> {elevator.setOverride(true); elevator.moveMotors(0.05);}).onFalse(() ->{elevator.setOverride(false); elevator.stopElevator();});
+    // the override ^
     
     controller.leftTriggerB.whileTrue(() -> outtakeSubsystem.setMotors(0.5)).onFalse(outtakeSubsystem::stop);
     controller.rightTriggerB.whileTrue(() -> outtakeSubsystem.setMotors(-0.5)).onFalse(outtakeSubsystem::stop);

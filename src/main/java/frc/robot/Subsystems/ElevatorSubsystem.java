@@ -8,17 +8,21 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import ca.frc6390.athena.sensors.limitswitch.GenericLimitSwitch;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ElevatorSubsystem extends SubsystemBase {
   private final SparkMax up1, up2;
   private final RelativeEncoder up1Encoder, up2Encoder;
   private double setpoint, speed = 0;
-  private boolean override = false;
-  private final double MAX_SETPOINT = 3.14;
-  private PIDController pid = new PIDController(0.85, 0, 0);
+  private boolean homeElevator = false, override = false;
+  private final double MAX_SETPOINT = 3.14; // <---  :O its meee
+  private final double MAX_OUTPUT = 0.5;
+  private PIDController pid = new PIDController(0.85, 0, 0.1);
+  private GenericLimitSwitch lowerLimit;
 
   /** Creates a new Elevator2. */
   public ElevatorSubsystem() {
@@ -28,30 +32,51 @@ public class ElevatorSubsystem extends SubsystemBase {
     up1Encoder = up1.getEncoder();
     up2Encoder = up2.getEncoder();
 
-    up1Encoder.setPosition(0);
-    up2Encoder.setPosition(0);
+    lowerLimit = new GenericLimitSwitch(0); //DIO port on rio
+
+    lowerLimit.getTrigger().whileTrue(new InstantCommand(() -> {
+      homeElevator = false;
+      zeroEncoders();
+         stopElevator();
+     }));
+    // what does this doo
 
     setpoint = 0;
+  }
+
+  public void setOverride(boolean override) {
+    this.override = override;
   }
 
   public void setSpeed(double speed){
     this.speed = speed;
   }
 
-  private void moveMotors(double speed) {
+  public void moveMotors(double speed) {
+    // if (lowerLimit.isPressed() && speed < 0){
+    //   speed = 0;
+    //   homeElevator = false;
+    // }
+    // someone pls write what this does ^
+
+    speed = Math.copySign(Math.min(MAX_OUTPUT, Math.abs(speed)), speed);
+
     up1.set(-speed);
     up2.set(-speed);
   }
 
-  public void setOverride(boolean override){
-    this.override = override;
-    if (override == false) {
-      up2Encoder.setPosition(0);
-    }
+  public void setHomeElevator(boolean home){
+    homeElevator = home;
   }
 
-  public boolean getOverride(){
-    return override;
+  public void zeroEncoders(){
+    up1Encoder.setPosition(0);
+    up2Encoder.setPosition(0);
+  }
+
+  public void stopElevator(){
+    up1.stopMotor();
+    up2.stopMotor();
   }
 
   public void setSetpoint(double setpoint){
@@ -64,12 +89,10 @@ public class ElevatorSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-
     
-    if(override){
-      moveMotors(speed);
-    }else {
-      speed = pid.calculate(getPosition(),setpoint);
+
+    speed = homeElevator ? -0.05 : pid.calculate(getPosition(),setpoint);
+    if(!override){
       moveMotors(speed);
     }
 

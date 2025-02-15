@@ -27,7 +27,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         right2 = new SparkMax(1, MotorType.kBrushed);
         
         encoderLeft = new Encoder(0, 1);
-        encoderRight = new Encoder(1, 2);
+        encoderRight = new Encoder(1, 2); //i changed A to 3 cause diojni
         encoderLeft.setDistancePerPulse(EncoderConstants.distancePerPulse);
         encoderRight.setDistancePerPulse(EncoderConstants.distancePerPulse);
 
