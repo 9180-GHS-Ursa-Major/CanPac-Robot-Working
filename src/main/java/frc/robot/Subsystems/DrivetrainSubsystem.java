@@ -26,8 +26,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
         right1 = new SparkMax(2, MotorType.kBrushed);
         right2 = new SparkMax(1, MotorType.kBrushed);
         
+        // code thinks DIO 1 allocated on line 29 & 30
         encoderLeft = new Encoder(0, 1);
-        encoderRight = new Encoder(1, 2); //i changed A to 3 cause diojni
+        encoderRight = new Encoder(2, 3);
         encoderLeft.setDistancePerPulse(EncoderConstants.distancePerPulse);
         encoderRight.setDistancePerPulse(EncoderConstants.distancePerPulse);
 
