@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Commands.DriveCommand;
+import frc.robot.Commands.DriveOneFoot;
 //import frc.robot.Commands.ElevatorDown;
 //import frc.robot.Commands.ElevatorUp;
 import frc.robot.Subsystems.DrivetrainSubsystem;
@@ -20,6 +21,8 @@ import frc.robot.Subsystems.OuttakeSubsystem;
 
 public class RobotContainer {
   
+  private double l2SetPoint = 1.25;
+  private double l3SetPoint = 2;
   public static DebouncedController controller = new DebouncedController(0);
 
   //This is where we add all the subsystems to RobotContainer.
@@ -48,15 +51,26 @@ public class RobotContainer {
     // Start of the chooser
   drivetrainSubsystem.setDefaultCommand(new DriveCommand(drivetrainSubsystem));
     // upTrigger.whileTrue(elevatorUp); //also not neccessary, dont touch
-    controller.back.whileTrue(new InstantCommand(() -> elevator.setHomeElevator(true))).onFalse(() -> {elevator.setHomeElevator(false); elevator.zeroEncoders();});
+    controller.back.whileTrue(new InstantCommand(() 
+    -> elevator.setHomeElevator(true))).onFalse(()
+     -> {elevator.setHomeElevator(false); elevator.zeroEncoders();});
 
     controller.a.onTrue(() -> elevator.setHomeElevator(true));
-    controller.x.onTrue(() -> elevator.setSetpoint(1.25)); //l2
-    controller.y.onTrue(() -> elevator.setSetpoint(2.5)); //L3
+    controller.x.onTrue(() -> elevator.setSetpoint(l2SetPoint)); //1.25
+    controller.y.onTrue(() -> elevator.setSetpoint(l3SetPoint)); //2
+    // This should drive forward one foot, then extend the elevator to l2, then outtake for two seconds 
+    controller.b.onTrue(new DriveOneFoot(drivetrainSubsystem).andThen(() 
+        -> elevator.setSetpoint(l2SetPoint)).andThen(() 
+        -> outtakeSubsystem.setMotors(0.5)).withTimeout(2000));
     
 
-    controller.rightY.tiggerAt(0.8).whileTrue(() -> { elevator.setOverride(true); elevator.moveMotors(-0.05);}).onFalse(() ->{elevator.setOverride(false); elevator.stopElevator();});
-    controller.rightY.tiggerAt(-0.8).whileTrue(() -> {elevator.setOverride(true); elevator.moveMotors(0.05);}).onFalse(() ->{elevator.setOverride(false); elevator.stopElevator();});
+    controller.rightY.tiggerAt(0.8).whileTrue(() 
+      -> { elevator.setOverride(true); elevator.moveMotors(-0.05);}).onFalse(()
+       ->{elevator.setOverride(false); elevator.stopElevator();});
+
+    controller.rightY.tiggerAt(-0.8).whileTrue(() 
+    -> {elevator.setOverride(true); elevator.moveMotors(0.05);}).onFalse(() 
+    -> {elevator.setOverride(false); elevator.stopElevator();});
     // the override ^
     
     controller.leftTriggerB.whileTrue(() -> outtakeSubsystem.setMotors(0.5)).onFalse(outtakeSubsystem::stop);

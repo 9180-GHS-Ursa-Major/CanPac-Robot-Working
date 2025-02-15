@@ -19,7 +19,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   private final RelativeEncoder up1Encoder, up2Encoder;
   private double setpoint, speed = 0;
   private boolean homeElevator = false, override = false;
-  private final double MAX_SETPOINT = 3.14; // <---  :O its meee
+  private final double MAX_SETPOINT = 3.14; // <---  :O its meee 🥧
   private final double MAX_OUTPUT = 0.5;
   private PIDController pid = new PIDController(0.85, 0, 0.1);
   private GenericLimitSwitch lowerLimit;
