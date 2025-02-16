@@ -58,6 +58,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
         right2.set(speed);
     }
 
+    /**
+     * Drives the robot
+     * @param xSpeed the forward velocity of the robot
+     * @param rSpeed the rotational velocity of the robot
+     */
     public void Drive(double xSpeed, double rSpeed) {
         diff.arcadeDrive(xSpeed, rSpeed);
     }

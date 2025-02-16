@@ -20,8 +20,8 @@ public class DriveCommand extends Command {
 
     @Override
     public void execute() {
-        double forwardVelocity = RobotContainer.controller.getLeftY();
-        double rotationVelocity = RobotContainer.controller.getRightX();
+        double rotationVelocity = RobotContainer.controller.getLeftY();
+        double forwardVelocity = RobotContainer.controller.getRightX();
         drivetrainSubsystem.Drive(forwardVelocity, rotationVelocity);
     }
 

@@ -21,10 +21,10 @@ public class ElevatorSubsystem extends SubsystemBase {
   private boolean homeElevator = false, override = false;
   private final double MAX_SETPOINT = 3.14; // <---  :O its meee 🥧
   private final double MAX_OUTPUT = 0.5;
-  private PIDController pid = new PIDController(0.85, 0, 0.1);
+  private PIDController pid = new PIDController(0.85, 0, 0.075); // might need changing come the algae mechanism
   private GenericLimitSwitch lowerLimit;
 
-  /** Creates a new Elevator2. */
+  /** Creates a new ElevatorSubsystem. */
   public ElevatorSubsystem() {
     up1 = new SparkMax(13, MotorType.kBrushless);
     up2 = new SparkMax(14, MotorType.kBrushless);
@@ -32,14 +32,13 @@ public class ElevatorSubsystem extends SubsystemBase {
     up1Encoder = up1.getEncoder();
     up2Encoder = up2.getEncoder();
 
-    lowerLimit = new GenericLimitSwitch(0); //DIO port on rio
+    lowerLimit = new GenericLimitSwitch(0); //DIO port on rio // this was the cause of the DIOJNI error
 
     lowerLimit.getTrigger().whileTrue(new InstantCommand(() -> {
       homeElevator = false;
       zeroEncoders();
          stopElevator();
      }));
-    // what does this doo
 
     setpoint = 0;
   }
@@ -57,7 +56,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     //   speed = 0;
     //   homeElevator = false;
     // }
-    // someone pls write what this does ^
+    // stops when limit switch is hit??? // we don't know and we'd like to
 
     speed = Math.copySign(Math.min(MAX_OUTPUT, Math.abs(speed)), speed);
 
@@ -91,7 +90,7 @@ public class ElevatorSubsystem extends SubsystemBase {
   public void periodic() {
     
 
-    speed = homeElevator ? -0.05 : pid.calculate(getPosition(),setpoint);
+    speed = homeElevator ? -0.05 : pid.calculate(getPosition(), setpoint);
     if(!override){
       moveMotors(speed);
     }
