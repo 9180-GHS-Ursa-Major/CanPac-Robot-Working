@@ -1,6 +1,5 @@
 package frc.robot.Subsystems;
 
-import ca.frc6390.athena.sensors.camera.limelight.LimelightConfig;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
