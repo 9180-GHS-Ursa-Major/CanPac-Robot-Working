@@ -59,9 +59,9 @@ public class RobotContainer {
     controller.x.onTrue(() -> elevator.setSetpoint(l2SetPoint)); //1.25
     controller.y.onTrue(() -> elevator.setSetpoint(l3SetPoint)); //2
     // This should drive forward one foot, then extend the elevator to l2, then outtake for two seconds 
-    controller.b.onTrue(new DriveOneFoot(drivetrainSubsystem).andThen(() 
-        -> elevator.setSetpoint(l2SetPoint)).andThen(() 
-        -> outtakeSubsystem.setMotors(0.5)).withTimeout(2000));
+    // controller.b.onTrue(new DriveOneFoot(drivetrainSubsystem).andThen(()  // possible auto code - commented out because I don't trust it
+        // -> elevator.setSetpoint(l2SetPoint)).andThen(() 
+        // -> outtakeSubsystem.setMotors(0.5)).withTimeout(2000));
     
 
     controller.rightY.tiggerAt(0.8).whileTrue(() 
