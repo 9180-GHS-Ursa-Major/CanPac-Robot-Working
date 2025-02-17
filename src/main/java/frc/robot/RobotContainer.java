@@ -56,17 +56,13 @@ public class RobotContainer {
     controller.y.onTrue(() -> elevator.setSetpoint(l3SetPoint)); //2
    
 
-    controller.rightY.tiggerAt(0.8).whileTrue(() 
-      -> { elevator.setOverride(true); elevator.moveMotors(-0.05);}).onFalse(()
-       ->{elevator.setOverride(false); elevator.stopElevator();});
+    controller.rightY.tiggerAt(0.8).whileTrue(() -> { elevator.setOverride(true); elevator.moveMotors(-0.05);}).onFalse(() ->{elevator.setOverride(false); elevator.stopElevator();});
 
-    controller.rightY.tiggerAt(-0.8).whileTrue(() 
-    -> {elevator.setOverride(true); elevator.moveMotors(0.05);}).onFalse(() 
-    -> {elevator.setOverride(false); elevator.stopElevator();});
+    controller.rightY.tiggerAt(-0.8).whileTrue(() -> {elevator.setOverride(true); elevator.moveMotors(0.05);}).onFalse(() -> {elevator.setOverride(false); elevator.stopElevator();});
     // the override ^
     
-    controller.leftTriggerB.whileTrue(() -> outtakeSubsystem.setMotors(0.35)).onFalse(outtakeSubsystem::stop);
-    controller.rightTriggerB.whileTrue(() -> outtakeSubsystem.setMotors(-0.2)).onFalse(outtakeSubsystem::stop);
+    controller.leftTriggerB.whileTrue(() -> outtakeSubsystem.setMotors(0.275)).onFalse(outtakeSubsystem::stop);
+    controller.rightTriggerB.whileTrue(() -> outtakeSubsystem.setMotors(-0.35)).onFalse(outtakeSubsystem::stop);
 
   }
 
