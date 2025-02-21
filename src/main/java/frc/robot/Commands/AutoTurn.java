@@ -8,19 +8,17 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.DrivetrainSubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class DriveForwardCommand extends Command {
+public class AutoTurn extends Command {
   /** Creates a new DriveForwardCommand. */
   DrivetrainSubsystem drivetrainSubsystem;
   //DriveCommand driveCommand;
   final double speed;
-  final double distance;
-  double initialStartingPoint;
+  final double angle;
 
-  public DriveForwardCommand(DrivetrainSubsystem drivetrainSubsystem, double speed, double distance, double initialStartingPoint) {
+  public AutoTurn(DrivetrainSubsystem drivetrainSubsystem, double speed, double angle) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.speed = speed;
-    this.distance = distance;
-    this.initialStartingPoint = initialStartingPoint;
+    this.angle = angle;
     this.drivetrainSubsystem = drivetrainSubsystem;
     addRequirements(drivetrainSubsystem);
   }
@@ -28,15 +26,15 @@ public class DriveForwardCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    initialStartingPoint = drivetrainSubsystem.distanceLeft();
-    
+    drivetrainSubsystem.resetLeftEncoder();
+    drivetrainSubsystem.zeroGyro();
   }
+  
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  
-drivetrainSubsystem.Drive(speed,0);
+    drivetrainSubsystem.Drive(0,0.5);
   }
 
   // Called once the command ends or is interrupted.
@@ -48,6 +46,6 @@ drivetrainSubsystem.Drive(speed,0);
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(drivetrainSubsystem.distanceLeft()-initialStartingPoint)>=distance;
+    return Math.abs(drivetrainSubsystem.angle()) <= 45;
   }
 }

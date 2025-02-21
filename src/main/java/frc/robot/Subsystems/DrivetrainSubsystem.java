@@ -7,8 +7,10 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.EncoderConstants;
 
@@ -18,13 +20,15 @@ public class DrivetrainSubsystem extends SubsystemBase {
     DifferentialDrive diff;
     Encoder encoderLeft = new Encoder(1, 2);
     Encoder encoderRight = new Encoder(3, 4);
+    ADXRS450_Gyro gyro;
 
     public DrivetrainSubsystem() {
         left1 = new SparkMax(4,MotorType.kBrushed);
         left2 = new SparkMax(3, MotorType.kBrushed);
         right1 = new SparkMax(2, MotorType.kBrushed);
         right2 = new SparkMax(1, MotorType.kBrushed);
-        
+
+        gyro = new ADXRS450_Gyro();
         
         encoderLeft.setDistancePerPulse(EncoderConstants.distancePerPulse);
         encoderRight.setDistancePerPulse(EncoderConstants.distancePerPulse);
@@ -65,9 +69,13 @@ public class DrivetrainSubsystem extends SubsystemBase {
         diff.arcadeDrive(xSpeed, rSpeed);
     }
 
+    public void resetLeftEncoder(){
+        encoderLeft.reset();
+    }
+
     //Distance as calculated from the left-side encoder
     public double distanceLeft() {
-        return encoderLeft.getDistance();
+        return encoderLeft.getDistance() * Math.PI * 6;
     }
 
     // Resets the encoder distances to 0
@@ -76,7 +84,17 @@ public class DrivetrainSubsystem extends SubsystemBase {
         encoderRight.reset();
     }
 
+    public void calibrateGyro() {
+        gyro.calibrate();
+    }
 
+    public void zeroGyro() {
+        gyro.reset();
+    }
+
+    public double angle() {
+        return gyro.getAngle();
+    }
 
     
 
@@ -85,6 +103,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
         // This method is called periodically
         // This is where to put the encoder readings
         // SmartDashboard.putNumber("Distance Left", distanceLeft());
+        SmartDashboard.putNumber("Angle", angle());
     }
 
     public void arcadeDrive(double speed, double rot) {

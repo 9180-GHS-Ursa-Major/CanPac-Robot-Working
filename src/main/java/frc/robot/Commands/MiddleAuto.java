@@ -3,12 +3,12 @@ package frc.robot.Commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Subsystems.DrivetrainSubsystem;
 
-public class DriveOneFoot extends Command {
+public class MiddleAuto extends Command {
     private DrivetrainSubsystem drivetrainSubsystem;
     private double speed = 0.5;
     //7ft. 4 in.
 
-    public DriveOneFoot(DrivetrainSubsystem drivetrainSubsystem) {
+    public MiddleAuto(DrivetrainSubsystem drivetrainSubsystem) {
         this.drivetrainSubsystem = drivetrainSubsystem;
     }
 
@@ -20,14 +20,14 @@ public class DriveOneFoot extends Command {
 // turn to 88
     @Override
     public void execute() {
-        if (drivetrainSubsystem.distanceLeft() <= 12) {
+        if (drivetrainSubsystem.distanceLeft() <= 88) {
             drivetrainSubsystem.arcadeDrive(speed, 0);
         }
     }
 
     @Override
     public boolean isFinished() {
-        return drivetrainSubsystem.distanceLeft() > 12;
+        return drivetrainSubsystem.distanceLeft() > 88;
     }
 
     @Override

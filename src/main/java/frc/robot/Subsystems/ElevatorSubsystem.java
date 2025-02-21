@@ -34,10 +34,11 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     lowerLimit = new GenericLimitSwitch(0); //DIO port on rio // this was the cause of the DIOJNI error
 
-    lowerLimit.getTrigger().whileTrue(new InstantCommand(() -> {
+    lowerLimit.whileTrue(new InstantCommand(() -> {
+      setSetpoint(0);
       homeElevator = false;
       zeroEncoders();
-         stopElevator();
+      stopElevator();
      }));
 
     setpoint = 0;
@@ -52,10 +53,9 @@ public class ElevatorSubsystem extends SubsystemBase {
   }
 
   public void moveMotors(double speed) {
-    // if (lowerLimit.isPressed() && speed < 0){
-    //   speed = 0;
-    //   homeElevator = false;
-    // }
+    if (lowerLimit.getAsBoolean() && speed < 0){
+      speed = 0;
+    }
     // stops when limit switch is hit??? // we don't know and we'd like to
 
     speed = Math.copySign(Math.min(MAX_OUTPUT, Math.abs(speed)), speed);
