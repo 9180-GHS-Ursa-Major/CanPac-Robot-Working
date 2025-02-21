@@ -9,10 +9,11 @@ import ca.frc6390.athena.controllers.EnhancedXboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.Commands.AutoDrive;
 import frc.robot.Commands.AutoTurn;
 import frc.robot.Commands.DriveCommand;
-import frc.robot.Commands.DriveOneFoot;
 import frc.robot.Commands.MiddleAuto;
 //import frc.robot.Commands.ElevatorDown;
 //import frc.robot.Commands.ElevatorUp;
@@ -52,12 +53,9 @@ public class RobotContainer {
 
   private void configureBindings() {
     // Start of the chooser
-    chooser.addOption("AUTO1", new MiddleAuto(drivetrainSubsystem));
-    chooser.addOption("AUTO2", new MiddleAuto(drivetrainSubsystem));
-
-    chooser.addOption("AUTO3", new MiddleAuto(drivetrainSubsystem));
-    chooser.addOption("1 Foot Autor", new DriveOneFoot(drivetrainSubsystem));
-    chooser.addOption("Turn 45 Degrees", new AutoTurn(drivetrainSubsystem, l3SetPoint, l2SetPoint));
+    chooser.addOption("Stationary", Commands.print("No auto selected"));
+    chooser.addOption("Forward Drive (1 ft)", new AutoDrive(drivetrainSubsystem, 0.5, 12));
+    chooser.addOption("Turn 45 Degrees", new AutoTurn(drivetrainSubsystem, 0.5, 45));
 
   drivetrainSubsystem.setDefaultCommand(new DriveCommand(drivetrainSubsystem));
     // upTrigger.whileTrue(elevatorUp); //also not neccessary, dont touch

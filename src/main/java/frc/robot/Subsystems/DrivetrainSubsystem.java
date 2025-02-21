@@ -62,8 +62,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     /**
      * Drives the robot
-     * @param xSpeed the forward velocity of the robot
-     * @param rSpeed the rotational velocity of the robot
+     * @param xSpeed the rotational velocity of the robot
+     * @param rSpeed the forward velocity of the robot
+     * Build team skill issue
      */
     public void Drive(double xSpeed, double rSpeed) {
         diff.arcadeDrive(xSpeed, rSpeed);
@@ -102,7 +103,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     public void periodic() {
         // This method is called periodically
         // This is where to put the encoder readings
-        // SmartDashboard.putNumber("Distance Left", distanceLeft());
+         SmartDashboard.putNumber("Distance Left", distanceLeft());
         SmartDashboard.putNumber("Angle", angle());
     }
 

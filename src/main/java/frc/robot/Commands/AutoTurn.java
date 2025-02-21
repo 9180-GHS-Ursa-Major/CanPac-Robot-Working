@@ -15,6 +15,12 @@ public class AutoTurn extends Command {
   final double speed;
   final double angle;
 
+  /**
+   * 
+   * @param drivetrainSubsystem the drivetrain subsystem
+   * @param speed the speed of the robot in decimal percentage
+   * @param angle the angle in degrees
+   */
   public AutoTurn(DrivetrainSubsystem drivetrainSubsystem, double speed, double angle) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.speed = speed;
@@ -34,7 +40,7 @@ public class AutoTurn extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrainSubsystem.Drive(0,0.5);
+    drivetrainSubsystem.Drive(speed,0);
   }
 
   // Called once the command ends or is interrupted.
@@ -46,6 +52,6 @@ public class AutoTurn extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(drivetrainSubsystem.angle()) <= 45;
+    return Math.abs(drivetrainSubsystem.angle()) >= angle;
   }
 }

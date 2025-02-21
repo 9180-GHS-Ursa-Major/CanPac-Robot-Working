@@ -32,7 +32,7 @@ public class AutoDrive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrainSubsystem.Drive(speed,0);
+    drivetrainSubsystem.Drive(0,speed);
   }
 
   // Called once the command ends or is interrupted.
