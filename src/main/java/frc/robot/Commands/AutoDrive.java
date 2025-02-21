@@ -26,24 +26,28 @@ public class AutoDrive extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("Driving" + distance + "inches");
     drivetrainSubsystem.resetLeftEncoder();    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println("Drive starting");
     drivetrainSubsystem.Drive(0,speed);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Drive ended");
     drivetrainSubsystem.Drive(0, 0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    System.out.println("End conditions met");
     return Math.abs(drivetrainSubsystem.distanceLeft())>=distance;
   }
 }
